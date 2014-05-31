@@ -1,0 +1,432 @@
+<br /><br />
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<!-- head and style --->
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        #container
+        {
+            height: 400px;
+            position: relative;
+            width: 400px;
+        }
+
+        #f1
+        {
+            bottom: 0;
+            top: 224px;
+            left: -771px;
+            position: absolute;
+            width: 215%;
+            visibility:hidden
+        }
+        .btnExample {
+            color: #900;
+            background: #FF0;
+            font-weight: bold;
+            border: 1px solid #900;
+        }
+
+        .btnExample:hover {
+            color: #FFF;
+            background: #900;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <div id="content">
+        <canvas id="mysandbox" style="border:1px solid #000000;position: absolute;left: 600px;top:200px " width="720"  height="450">
+
+        </canvas>
+        <audio controls id="4" style="display:none">
+            <source src="<?= $this->baseUrl() ?>/audio/story1.m4a" >
+        </audio>
+        <!-- start of question's form  -->
+        <form id =f1 name="Qform" method="post" action="">
+            <br><br>
+            <table width="600px"  height="200" align="center" style="border:1px solid #000000;background-color:#CCCC99 ;
+                   border:1px solid black;
+                   opacity:0.6;
+                   filter:alpha(opacity=60); /* For IE8 and earlier */">
+                <tr><td colspan=2></td></tr>
+                <tr><td colspan=2> </td></tr>
+                <tr>
+                    <td colspan=2></td>
+                    <td style="text-align:center" ><b><font color="#996600">تفتكر عم فطين هيعالج بندق ازاي ؟  </font></b> </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <button id ="a1" class="btnExample"  value="a1"> يرجع راسه إلى الامام   </button>
+                    </td> <td>
+                        <button id ="a2" class="btnExample"  value="a2">يرجع راسه إلى الخلف  </button>
+
+                    </td>
+                </tr>
+                <tr><td colspan=2> </td></tr>
+            </table>
+        </form>
+        <!--end of question's Form  -->
+    </div>
+    <div style="background-color: white;padding:50px;position: absolute;top:700px;left:600px" DIR="RTL">
+        <ul>
+            <?php
+            if (isset($this->advices)) {
+                foreach ($this->advices as $advice) {
+                    ?>
+
+                    <li><strong><?= $advice['question'] ?></strong><br>
+                    <?= $advice['answer'] ?><br><br>
+                    </li>
+
+
+                    <?php
+                }
+            }
+            ?>
+        </ul>
+    </div>
+
+    <script type='text/javascript'>
+
+        var dialog = [0, 40, 90, 180, 300, 380];
+        var count = -1;
+        var index = 0;
+        var flagLoad = 0;
+        var sound = document.getElementById("4");
+        var fateenScale = 2;
+        var bondo2Scale = 2;
+
+        /*************Question Part *************/
+        /*************BGIN *************/
+        var userAnswer;
+        function showQuestion() {
+            document.Qform.style.visibility = "visible";
+        }
+        function pause()
+        {
+            stop_my_int();
+            showQuestion();
+        }
+        a1.addEventListener('click', function(e) {
+            userAnswer = 1;
+            document.Qform.style.visibility = "hidden";
+            e.preventDefault();
+            startAid();
+        }, false);
+        a2.addEventListener('click', function(e) {
+            userAnswer = 2;
+            document.Qform.style.visibility = "hidden";
+            e.preventDefault();
+            startAid();
+        }, false);
+        function start() {
+            my_interv = setInterval(noseBleeding, 800);
+        }
+        function startAid() {
+            my_interv2 = setInterval(fatemHelpingBondo2, 800);
+        }
+        var start_my_int = function() {
+            start();
+        }
+        var stop_my_int = function() {
+            clearInterval(my_interv2);
+            my_interv = 0;
+        }
+        /*************Question Part *************/
+        /*************END *************/
+        function Sprite(image, frames, x, y, widthFactor) {
+            this.image = image;
+            this.frames = frames;
+            this.widthFactor = widthFactor || 0;
+            this.w = (image.width / frames) - this.widthFactor;
+            this.h = (image.height);
+            this.x = x || 0;
+            this.y = y || 0;
+            this.currentFrame = 0;
+
+            this.nextFrame = function() {
+                this.currentFrame++;
+                if (this.currentFrame == this.frames) {
+                    this.currentFrame = 0;
+                }
+
+            }
+
+            this.render = function() {
+                this.nextFrame();
+            }
+        }
+
+
+
+//------------------------------------------------------------------------------//
+        function renderAnimation() {
+
+            count++;
+
+            if (count == 320) {
+                count = 0;
+                clearInterval(scene1_id);
+                sprites = [];
+                var s2 = new Sprite(Nosebleed, 11, 500, 170, 0.32);
+                sprites[0] = s2;
+                var s3 = new Sprite(fatenStand, 4, 270, 110);
+                sprites[1] = s3;
+                scene1_id = start();//setInterval(noseBleeding, 800);
+            }
+            else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(backGround, 0, 0, canvas.width, canvas.height);
+
+
+                for (var i = 0; i < sprites.length; i++) {
+                    var s = sprites[i];
+                    s.render();
+
+                    if (count > 0 && count < 20 || count > 40 && count < 50 || count > 90 && count < 100 || count > 300 && count < 310 || count > 320 && count < 340) {
+                        if (s.image === bondo2) {
+                            ctx.drawImage(s.image,
+                                    0, 0,
+                                    s.w, s.h,
+                                    s.x, s.y,
+                                    s.w / bondo2Scale, s.h / bondo2Scale);
+
+                        }
+
+                        else if (s.image === amFaten) {
+                            ctx.drawImage(s.image,
+                                    3 * s.w, 0,
+                                    s.w, s.h,
+                                    s.x, s.y,
+                                    s.w / fateenScale, s.h / fateenScale);
+                        }
+                    }
+
+
+
+
+                    else if (s.image === bondo2 || s.image === Nosebleed) {
+                        if (count >= dialog[index] && count <= dialog[index + 1]) {
+                            ctx.drawImage(s.image,
+                                    0, 0,
+                                    s.w, s.h,
+                                    s.x, s.y,
+                                    s.w / bondo2Scale, s.h / bondo2Scale);
+                        }
+                        else {
+                            ctx.drawImage(s.image,
+                                    s.currentFrame * s.w, 0,
+                                    s.w, s.h,
+                                    s.x, s.y,
+                                    s.w / bondo2Scale, s.h / bondo2Scale);
+                        }
+                    }
+                    else {
+                        if (count >= dialog[index] && count <= dialog[index + 1]) {
+                            ctx.drawImage(s.image,
+                                    s.currentFrame * s.w, 0,
+                                    s.w, s.h,
+                                    s.x, s.y,
+                                    s.w / fateenScale, s.h / fateenScale);
+                        }
+                        else {
+                            ctx.drawImage(s.image,
+                                    3 * s.w, 0,
+                                    s.w, s.h,
+                                    s.x, s.y,
+                                    s.w / fateenScale, s.h / fateenScale);
+                        }
+                    }
+                    if (count == dialog[index + 1]) {
+                        index += 2;
+                    }
+                }
+            }
+        }
+
+//--------------------------------------bondo2 bleeding -------------------------------------//
+        var currentScale = 1;
+        // var sceneX =-800, sceneY = -300;
+        var sceneX = 0, sceneY = 0;
+        function noseBleeding() {
+
+
+            var c1 = 1;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(sceneX, sceneY);
+            ctx.scale(currentScale, currentScale);
+            ctx.drawImage(backGround, 0, 0, canvas.width, canvas.height);
+
+
+            for (var i = 0; i < sprites.length; i++) {
+                var s = sprites[i];
+                s.render();
+
+                if (s.image === Nosebleed) {
+                    ctx.drawImage(s.image,
+                            s.currentFrame * s.w, 0,
+                            s.w, s.h,
+                            s.x, s.y,
+                            s.w / bondo2Scale, s.h / bondo2Scale);
+                }
+
+                else if (s.image === fatenStand) {
+                    s.x -= 20 * c1;
+                    s.y += 6 * c1;
+                    c1++;
+                    ctx.drawImage(s.image,
+                            s.currentFrame * s.w, 0,
+                            s.w, s.h,
+                            s.x, s.y,
+                            s.w / fateenScale, s.h / fateenScale);
+                    if (s.currentFrame == 3)
+                    {
+                        //clearInterval(my_interv);
+                        var s4 = new Sprite(FateenStepToBondok, 6, 270, 110, 6);
+                        sprites[1] = s4;
+                        //sprites[1].render();
+                        c1 = 0;
+                    }
+
+                }
+                else if (s.image === FateenStepToBondok)
+                {
+
+                    s.x += 13 * c1;
+                    s.y += 3 * c1;
+                    c1++;
+                    ctx.drawImage(s.image,
+                            s.currentFrame * s.w, 0,
+                            s.w, s.h,
+                            s.x, s.y,
+                            s.w / fateenScale, s.h / fateenScale);
+                    if (s.currentFrame == 5)
+                    {
+                        animatedZoom();
+
+                    }
+
+                }
+            }
+
+            ctx.restore();
+        }
+
+
+
+        /***************************3LAAAG *********************************************/
+        function fatemHelpingBondo2()
+        {
+            if (count == 0)
+            {
+                pause();
+            }
+            count = 10;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(ZoomBG, 0, 0, canvas.width, canvas.height);
+
+
+            for (var i = 0; i < sprites.length; i++) {
+                var s = sprites[i];
+                s.render();
+
+
+                if (s.currentFrame == 5)
+                {
+                }
+                ctx.drawImage(s.image,
+                        s.currentFrame * s.w, 0,
+                        s.w, s.h,
+                        s.x, s.y,
+                        s.w * fateenScale, s.h * fateenScale);
+
+            }
+
+
+
+
+        }
+
+        /******************************ZOOMING*******************************************/
+        function animatedZoom() {
+            var stepX = -70;
+            var stepY = -20;
+            var stepScale = (3.5 - 1) / 50;
+            var step = 0;
+            var intervalId = setInterval(function() {
+                sceneX += stepX;
+                sceneY += stepY;
+                currentScale += stepScale;
+                if (++step == 40) {
+                    clearInterval(my_interv);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(Zoom, 0, 0, canvas.width, canvas.height);
+                    sprites = [];
+                    var s2 = new Sprite(ZoomAid, 6, 0, 0);
+                    sprites[0] = s2;
+                    count = 0;
+                    scene1_id = startAid();
+                    clearInterval(intervalId);
+
+                }
+            }, 30);
+        }
+
+
+//--------------------------------------------------------------------------------------------//
+        function addSprite() {
+            var s = new Sprite(bondo2, 14, 500, 170, 2.5);
+            sprites.push(s);
+            var s1 = new Sprite(amFaten, 8, 270, 110);
+            sprites.push(s1);
+        }
+
+
+        var canvas = document.getElementById("mysandbox");
+        var ctx = canvas.getContext('2d');
+
+        var sprites = [];
+        var bondo2 = new Image();
+        var amFaten = new Image();
+        var backGround = new Image();
+        var Nosebleed = new Image();
+        var fatenStand = new Image();
+        var FateenStepToBondok = new Image();
+        var ZoomBG = new Image();
+        var ZoomAid = new Image();
+        var Zoom = new Image();
+        bondo2.src = '<?= $this->baseUrl() ?>/images/story1/Bondok_sitting_talking.png';
+        amFaten.src = '<?= $this->baseUrl() ?>/images/story1/Am fateen sitting talking.png';
+        backGround.src = '<?= $this->baseUrl() ?>/images/story1/HomeBackground.jpg';
+        ZoomBG.src = '<?= $this->baseUrl() ?>/images/story1/ZoomBG.jpg';
+        ZoomAid.src = '<?= $this->baseUrl() ?>/images/story1/Zoom Aid.png';
+        Zoom.src = '<?= $this->baseUrl() ?>/images/story1/Zoom.jpg';
+        Nosebleed.src = '<?= $this->baseUrl() ?>/images/story1/Nosebleed.png';
+        fatenStand.src = '<?= $this->baseUrl() ?>/images/story1/Fateen standing.png';
+
+        FateenStepToBondok.src = '<?= $this->baseUrl() ?>/images/story1/Fateen Step To Bondok.png';
+
+        bondo2.onload = function() {
+            amFaten.onload = function() {
+                backGround.onload = function() {
+                    addSprite();
+
+                    scene1_id = setInterval(renderAnimation, 100);
+                    sound.play();
+                }
+            }
+        }
+
+
+
+    </script>
+
+</body>
+

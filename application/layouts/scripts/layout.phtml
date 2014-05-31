@@ -1,0 +1,87 @@
+<head>
+    <meta charset="utf-8">
+    <link href="<?= $this->baseUrl() ?>/css/style.css" rel="stylesheet" type="text/css">
+
+    <link href="<?= $this->baseUrl() ?>/css/bootstrap.min.css" rel="stylesheet">
+    <link href= "<?= $this->baseUrl() ?>/css/style.css" rel="stylesheet">
+
+    <script type="text/javascript" src= "<?= $this->baseUrl() ?>/js/jquery.min.js"></script>
+    <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?= $this->baseUrl() ?>/js/scripts.js" ></script>
+
+</head>
+
+<?php
+$user_data = Zend_Auth::getInstance()->getStorage()->read();
+?>
+<body>
+    <div id="background">
+        <div id="page">
+            <div id="body">
+                <div id="sidebar"> <a id="logo">&nbsp;</a>
+                    <ul>
+                        <li>
+                            <span><font size="10" color="#480000 ">التصنيفات</font></span>
+                        </li>
+                        <li>
+                            <a href="<?= $this->baseUrl() ?>/user/displaystory">عم فطين</a>
+                        </li>
+                        <li>
+                            <a href="<?= $this->baseUrl() ?>/user/displaystory">دكتور ميكروكروم</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="content">
+                    <div id="header">
+                        <ul class="navigation">
+                            <li class="first">
+                                <a class="active" href="<?= $this->baseUrl() ?>/user/">الرئيسية</a>
+                            </li>
+                            <?php
+                            if (isset($user_data->id)) {
+                                ?>
+                                <li>
+                                    <a href= "<?= $this->baseUrl() ?>/user/logout">الخروج  </a>
+                                </li>
+
+                                <?php
+                                if ($user_data->type == "parent") {
+                                    ?>
+                                    <li>
+                                        <a href= "<?= $this->baseUrl() ?>/user/evaluatechild">قيم طفلك</a>
+                                    </li>
+                                    <li>
+                                        <a href= "<?= $this->baseUrl() ?>/user/evaluatesite">قيم الموقع</a>
+                                    </li>
+
+                                <?php
+                                }
+                            } else {
+                                ?>
+                                    
+                                <li>
+                                    <a href="<?= $this->baseUrl() ?>/user/signup">التسجيل</a>
+                                </li>
+                                <li>
+                                    <a href="<?= $this->baseUrl() ?>/user/login">الدخول</a>
+                                </li>
+                                <?php
+                                    }
+                                ?>
+                            </ul>
+                        </div>
+                        <div class="body"> 	
+                            <div class="content">
+                                <?php echo $this->layout()->content; ?>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+
+
